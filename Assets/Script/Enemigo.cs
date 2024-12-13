@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+
 
 public class Enemigo : MonoBehaviour
 {
@@ -8,6 +10,11 @@ public class Enemigo : MonoBehaviour
     [SerializeField] private GameObject disparoPrefab;
     [SerializeField] private GameObject spawnPoint;
     [SerializeField] private GameObject spawnPoint2;
+    [SerializeField] private bool boss;
+    [SerializeField] private int vidasBoss=50;
+    
+    private int score = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -34,9 +41,19 @@ public class Enemigo : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("DisparoJugador"))
         {
-            
-            Destroy(collision.gameObject);
-            Destroy(this.gameObject);
+            if(boss && vidasBoss>0) 
+            { 
+                vidasBoss--;
+            }
+            else
+            {
+
+                Destroy(collision.gameObject);
+                Destroy(this.gameObject);
+                
+            }
+
+           
         }
     }
 }

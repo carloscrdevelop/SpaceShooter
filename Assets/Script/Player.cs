@@ -1,8 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Pool;
+using UnityEngine.SocialPlatforms.Impl;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -15,7 +18,9 @@ public class Player : MonoBehaviour
     private float vidas = 100f;
     private float temporizador = 0.5f;
     private int numeroBomba = 3;
-    
+    [SerializeField] private TextMeshProUGUI textoVida;
+    [SerializeField] private TextMeshProUGUI textoGameOver;
+
     private void Awake()
     {
         pool = new ObjectPool<Disparo>(CrearDisparo, GetDisparo, ReleaseDisparo, DestroyDisparo);
@@ -47,7 +52,7 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        
+        textoVida.text = "" + vidas;
     }
 
     // Update is called once per frame
@@ -101,12 +106,17 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("DisparoEnemigo") || collision.gameObject.CompareTag("Enemigo"))
         {
-            vidas = vidas - 20;
+            vidas = vidas - 20f;
+            
+            textoVida.text = "" + vidas;
             Destroy(collision.gameObject);
             if (vidas <=0)
             {
                 Destroy(this.gameObject);
+                textoGameOver.gameObject.SetActive(true);
+                textoVida.text = "0";
             }
+
         }
     }
 }
